@@ -1,0 +1,15 @@
+%% -*- mode: erlang -*-
+{application, mockiweb,
+ [
+  {description, "the mockiweb project"},
+  {vsn, "0.0.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  %% uncomment if this is an active application
+  %% {mod, { mockiweb_app, []}},
+  {env, []}
+ ]}.
+%% vim: set filetype=erlang tabstop=2
