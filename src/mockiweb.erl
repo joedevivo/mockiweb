@@ -11,7 +11,8 @@
          expect/6,
          respond/2,
          port/1,
-         history/1
+         history/1,
+         history_length/1
         ]).
 
 %% gen_server callbacks
@@ -97,6 +98,10 @@ port(ProcessName) ->
 history(ProcessName) ->
     gen_server:call(ProcessName, history).
 
+-spec history_length(atom()) -> integer().
+history_length(ProcessName) ->
+    gen_server:call(ProcessName, history_length).
+
 -spec server_name(inet:port_number()) -> atom().
 server_name(Port) ->
     list_to_atom("mockiweb_server_" ++ integer_to_list(Port)).
@@ -132,7 +137,7 @@ init([Port, ProcessName]) ->
 %% @private
 %% @doc Handling call messages
 %% TODO: deserves a better spec, but also deserves a better API.
--spec handle_call(history | port | {respond, term()}, {pid(), term()}, #state{}) ->
+-spec handle_call(history | history_length | port | {respond, term()}, {pid(), term()}, #state{}) ->
                                    {reply, term(), #state{}} |
                                    {reply, term(), #state{}, non_neg_integer()} |
                                    {noreply, #state{}} |
@@ -141,6 +146,8 @@ init([Port, ProcessName]) ->
                                    {stop, term(), #state{}}.
 handle_call(history, _From, #state{requests=History}=State) ->
     {reply, History, State};
+handle_call(history_length, _From, #state{requests=History}=State) ->
+    {reply, length(History), State};
 handle_call(port, _From, #state{port=Port}=State) ->
     {reply, Port, State};
 handle_call({respond, Req},
