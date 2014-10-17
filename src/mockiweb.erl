@@ -171,6 +171,7 @@ handle_call({respond, Req},
     end,
     %% * deliver a tuple of {Code::integer(), Headers::[header()], Body::string()
     NewHistory = [{Path, M, Response}|History],
+    Req:cleanup(),
     {reply, Response, State#state{requests=NewHistory}};
 handle_call(_Request, _From, State) ->
     Reply = ok,
