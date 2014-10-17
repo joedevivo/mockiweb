@@ -157,7 +157,7 @@ handle_call({respond, Req},
                expectations=Es
                   } = State) ->
     %% * get the path from Req
-    Path = Req:get(path),
+    Path = Req:get(raw_path),
     %% * match the path to a route from #state.expectations
     {M, Response} = case great_expectations(Path, Es) of
         [] -> %% No ticket
